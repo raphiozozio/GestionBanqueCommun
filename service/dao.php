@@ -24,22 +24,7 @@ $solde,$decouvertautorise,&$donnees) {
     fclose($fp);
     print_r($donnees);
 }
-function creationCompte ($donneesCompte,$type,$donneesAgence,$donneesClient,&$donneesNumCompte){
-    $typeCompte = $type;
-    $agence = 0;
-    while ($agence == 0){
-    $codeAgence = readline("inscrivez votre code d'agence a 3 chiffre : ");
-    $agence = chercheAgence($codeAgence,$donneesAgence);
-    }
-    $numeroCompte = calculeNumCompte($donneesNumCompte);
-    $client = 0;
-    while ($client == 0){
-        $identifiantClient = readline("indiquez votre identifiant client : ");
-        $client = chercheClient($identifiantClient,$donneesClient);
-    }
 
-    
-}
 function chercheClient($identifiantClient,$donneesClient){
     $clientP = 0;
     foreach($donneesClient as $client){
@@ -58,4 +43,15 @@ function chercheAgence($codeAgence,$donneesAgence){
         }
     }
     return $agenceP;
+}
+function stockageCompte($identifiantClient,$type,$codeAgence,$numeroCompte,&$donnees) {
+    $donnees[]=[$numeroCompte,$identifiantClient,$type,$codeAgence];
+    $header = ["numero de compte","identifiant de client ", "type de compte","code d'agence" ];
+    $fp = fopen(FILE_COMPTE, 'w');
+    fputcsv($fp, $header, DELIMITER, "\t");
+    foreach ($donnees as $row) {
+        fputcsv($fp, $row, DELIMITER, "\t");
+    
+    fclose($fp);
+    }
 }

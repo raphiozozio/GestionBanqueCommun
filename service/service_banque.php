@@ -1,5 +1,7 @@
 <?php
-
+/*
+* @param:string
+*/
 function creationAgence (&$donnees,&$donneesCodeAgence) {
     $codeAgence = codeAgence($donneesCodeAgence);
     $nomAgence = readline("\nTapez le nom de l'agence : ");
@@ -37,4 +39,19 @@ function creationCompteBanquaire(&$donnees,$donneesAgence,$donneesClient,&$donne
             creationCompte ($donnees,"P",$donneesAgence,$donneesClient,$donneesNumCompte);
             break;
 }
+}
+function creationCompte (&$donnees,$type,$donneesAgence,$donneesClient,$donneesNumCompte){
+    $agence = 0;
+    while ($agence == 0){
+    $codeAgence = readline("inscrivez votre code d'agence a 3 chiffre : ");
+    $agence = chercheAgence($codeAgence,$donneesAgence);
+    }
+    $numeroCompte = calculeNumCompte($donneesNumCompte);
+    $client = 0;
+    while ($client == 0){
+        $identifiantClient = readline("indiquez votre identifiant client : ");
+        $client = chercheClient($identifiantClient,$donneesClient);
+    }
+    $donnees[]=[$numeroCompte,$identifiantClient,$type,$codeAgence];
+    stockageCompte($identifiantClient,$type,$codeAgence,$numeroCompte,$donnees);
 }
