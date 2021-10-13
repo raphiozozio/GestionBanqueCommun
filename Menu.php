@@ -22,8 +22,7 @@ while ($choix!= 8){
             $delimiter=";";
             // $donnees = array();
          //CSV to TABLEAU ___________________________________________________________________
-            
-         
+        
          $filename = fopen(FILE_AGENCE, 'a+');
          $octet=filesize(FILE_AGENCE);
          if ($octet==0){
@@ -36,14 +35,10 @@ while ($choix!= 8){
                 
                     $donnees[] = $row;
             }
-            print_r($donnees);
             echo("tableau avant ecriture\n");
             fclose($filename);
             $header=array();
-                
-                         
-        
-             
+                  
          //________________________________________________________________________________
          echo ("Vous creez une agence");
          echo ("\n");
@@ -56,19 +51,15 @@ while ($choix!= 8){
             "nomAgence"=> $nomAgence,
             "adresseAgence"=> $adresseAgence,
             "codeAgence" => $codeAgence];
-            print_r($donnees);
-            echo("tableau apres j'ajout des données");
 
          // __________________________________________________________________________________
          //TABLEAU to CSV
          $handle = fopen(FILE_AGENCE, 'w+');
-
          foreach ($donnees as $fields) {
          fputcsv($handle, $fields,$delimiter);
          }
          fclose($handle);
          $donnees = array();
-         
          $header=array();
          $choix=0;
 
@@ -81,6 +72,42 @@ while ($choix!= 8){
         $prenom = readline("Entrer votre prénom ALPHANUMERIQUE: ");
         $dateDeNaissance = readline("entrer votre de date naissance JJMMAAAA: ");
         $email = readline("entrer votre adresse mail MACHIN@TRUC.BIDUL : ");
+        $filename = fopen(FILE_CLIENT, 'a+');
+         $octet=filesize(FILE_CLIENT);
+         if ($octet==0){
+             
+             $donnees[]=["identifiantClient","nom","prénom","datedenaissance","email"];
+         }
+         echo("$octet\n");
+         
+            while (($row = fgetcsv($filename, 1000, $delimiter)) !== FALSE) {
+                
+                    $donnees[] = $row;
+            }
+            fclose($filename);
+            $header=array();
+
+            $donnees[]=[
+                "identifiantClient"=> $idClient,
+                "nom"=> $nom,
+                "prénom" => $prenom,
+                "datedenaissance"=> $dateDeNaissance,
+                "email"=> $email,
+                "prénom" => $prenom
+            
+            ];
+    
+             // __________________________________________________________________________________
+             //TABLEAU to CSV
+             $handle = fopen(FILE_CLIENT, 'w+');
+             foreach ($donnees as $fields) {
+             fputcsv($handle, $fields,$delimiter);
+             }
+             fclose($handle);
+             $donnees = array();
+             $header=array();
+             $choix=0;
+
         $choix=0;
     break;
     case 3 : 
